@@ -1,0 +1,51 @@
+<div class="container">
+        <nav>
+                <div class="brand">Zepto</div>
+                <div class="delivery-info">Delivery in 10 mins</div>
+                <div class="search-bar">
+                        <input type="text" name="" id="" [(ngModel)]="searchTerm" placeholder="search for a product"
+                                (keyup)="onSearchInputChange()" />
+                </div>
+                <div class="nav-links">
+                        <p>{{ userName }}</p>
+                        <a href="javascript:void(0);" class="login-link" *ngIf="!userName" (click)="toggleModal()"><i
+                                        class="fas fa-user"></i></a>
+                        <a href="javascript:void(0)" class="cart-link">
+                                <i class="fas fa-shopping-cart" (click)="toggleCartModal()"></i>
+                                <p>{{ cartLength }}</p>
+                        </a>
+                </div>
+        </nav>
+</div>
+
+
+<div class="image-container">
+        <a href="#"><img src="/images/zepto-image.webp" alt="zepto image" /></a>
+</div>
+<div class="product-route-links">
+        <button (click)="loadAllProducts()">All</button>
+        <button (click)="loadProductsByCategory('vegetables')">Vegetables</button>
+        <button (click)="loadProductsByCategory('beverages')">Beverages</button>
+        <button (click)="loadProductsByCategory('dairy-products')">Dairy Products</button>
+</div>
+
+<div class="product-list">
+        <div *ngIf="results.length > 0; else allProducts" class="search-products">
+                <div *ngFor="let product of results" class="product-item">
+                        <img [src]="product.img" [alt]="product.name" class="productImage" />
+                        <p class="productPara">{{ product.price | currency }}</p>
+                </div>
+        </div>
+
+        <!-- Display all products when there are no search results -->
+        <ng-template #allProducts>
+                <div *ngFor="let product of Products" class="product-item">
+                        <img [src]="product.img" [alt]="product.name" class="productImage" />
+                        <p class="productPara">{{ product.price | currency }}</p>
+                </div>
+        </ng-template>
+</div>
+
+<app-cart-items [isOpen]="showCartModal" (close)="toggleCartModal()"></app-cart-items>
+
+<div class="toast" *ngIf="toastMessage">{{ toastMessage }}</div>
